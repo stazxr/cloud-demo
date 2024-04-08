@@ -1,0 +1,19 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: order-service
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud01_order?useSSL=false
+    username: root
+    password: root
+mybatis-plus:
+  type-aliases-package: com.github.stazxr.study.cloud1.service.order.entity
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+logging:
+  file:
+    path: /home/cloud1/${spring.application.name}/logs/services
+debug: false

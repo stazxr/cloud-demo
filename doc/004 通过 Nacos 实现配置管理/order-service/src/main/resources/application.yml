@@ -1,0 +1,40 @@
+server:
+  port: 8091
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud01_order?useSSL=false
+    username: root
+    password: root
+  # cloud:
+    # nacos:
+      # discovery:
+        # 集群
+        # cluster-name: BJ
+        # 命名空间
+        # namespace: dev
+        # 是否是临时实例，临时实例（数据可靠性要求低）：心跳检测且剔除；非临时实例：主动检测，不剔除
+        # ephemeral: true
+mybatis-plus:
+  type-aliases-package: com.github.stazxr.study.cloud1.service.order.entity
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  file:
+    path: /home/cloud1/${spring.application.name}/logs/services
+debug: false
+#eureka:
+#  instance:
+#    instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${spring.application.instance_id:${server.port}}
+#    # prefer-ip-address: true
+#    # home-page-url-path: ${server.servlet.context-path}
+#    # lease-renewal-interval-in-seconds: 5
+#    # lease-expiration-duration-in-seconds: 15
+#  client:
+#    # fetch-registry: true
+#    # registry-fetch-interval-seconds: 15
+#    # register-with-eureka: true
+#    serviceUrl:
+#      defaultZone: http://127.0.0.1:8761/eureka/

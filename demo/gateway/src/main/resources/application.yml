@@ -1,0 +1,57 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: gateway
+  # webflux:
+    # base-path: /${spring.application.name}
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      discovery:
+        namespace: test
+        # group: common
+    gateway:
+      routes:
+        - id: user-service # # 路由标识，唯一
+          # 路由目标地址
+          # uri: http://localhost:8082
+          uri: lb://user-service
+          # 路由断言，判断请求是否否和逻辑
+          predicates:
+            # 路由断言
+            - Path=/user/**
+          filters:
+            - AddRequestHeader=NewHeader, testAddRequestHeader
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            # 路由断言
+            - Path=/order/**
+      default-filters:
+        - AddRequestHeader=NewHeader, testAddRequestHeaderDefault
+        - AddRequestHeader=origin, gateway
+      globalcors:
+        # 解决 options 请求的拦截问题
+        add-to-simple-url-handler-mapping: true
+        cors-configurations:
+          '[/**]':
+            # 允许哪些网站做跨域请求，一般为前端地址
+            allowedOrigins:
+              - "http://locolhost:8080"
+              - "http://www.xxx.com"
+            # 允许跨域的请求方式
+            allowedMethods:
+              - "GET"
+              - "POST"
+              - "PUT"
+              - "DELETE"
+              - "OPTIONS"
+            # 允许在请求中携带的请求头信息
+            allowedHeaders: "*"
+            # 跨域请求请求头中允许携带的自定义请求头
+            exposedHeaders: "new-token"
+            # 是否允许携带 Cookie
+            allowCredentials: true
+            # 跨域检测有效期，单位秒
+            maxAge: 1800
